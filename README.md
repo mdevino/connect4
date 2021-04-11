@@ -19,3 +19,4 @@ My first game made in Unity.
 
 ## State Transition Diagram
 
+![State Transition Diagram](https://github.com/mdevino/connect4/blob/master/Documentation/state-flow-diagram.png?raw=true)
