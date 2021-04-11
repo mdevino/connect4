@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SrcGrid : MonoBehaviour
 {
     private int playerTurn;
     private int[,] grid;
+    private DateTime lastPlaced;
+    private int delay = 1;
 
     private GameObject[] coins;
     private int coinsAdded;
     private int columns = 7;
     private int rows = 6;
+    private int winner;
 
     private float cellWidth;
     private float x0;
@@ -52,13 +56,16 @@ public class SrcGrid : MonoBehaviour
             mouse.z = gameObject.transform.position.z;
             if (spriteRenderer.bounds.Contains(mouse))
             {
-                placeCoin(mouse);
-                switchPlayers();
+                if (winner == 0 && (long)(DateTime.Now - lastPlaced).TotalSeconds > delay-1)
+                {
+                    placeCoin(mouse);
+                    SwitchPlayers();
+                }
             }
         }
     }
 
-    private void switchPlayers()
+    private void SwitchPlayers()
     {
         playerTurn = playerTurn == 1 ? 2 : 1;
     }
@@ -71,22 +78,42 @@ public class SrcGrid : MonoBehaviour
         newCoinPosition.y = yf - cellWidth / 2;
         newCoinPosition.z = gameObject.transform.position.z;
 
-        Vector3 objectPos = mouse;
+        for(int row = rows-1; row >= 0; row--)
+        {
+            if(grid[row, column] == 0)
+            {
+                grid[row, column] = playerTurn;
+                break;
+            } else if(row == 0)
+            {
+                return;
+            }
+        }
+
         GameObject coin = playerTurn == 1 ? coin1 : coin2;
         Instantiate(coin, newCoinPosition, Quaternion.identity);
         coins[coinsAdded] = coin;
         coinsAdded++;
 
-        Debug.Log("Player " + playerTurn + " has placed a coin!  Mouse: x=" + mouse.x + ", y=" + mouse.y + "Object: x=" + newCoinPosition.x + ", y=" + newCoinPosition.y);
+        if (AreFourConnected(playerTurn))
+        {
+            winner = playerTurn;
+            Debug.Log("Player " + winner + " wins");
+        }
 
+        lastPlaced = DateTime.Now;
+
+        // Debug.Log("Player " + playerTurn + " has placed a coin!  Mouse: x=" + mouse.x + ", y=" + mouse.y + "Object: x=" + newCoinPosition.x + ", y=" + newCoinPosition.y);
+        Debug.Log(GridToString());
     }
 
     private void StartGame()
     {
         DeleteCoins();
         // By default, int array values are set to 0 in C#
-        grid = new int[columns, rows];
+        grid = new int[rows, columns];
         playerTurn = 1;
+        winner = 0;
     }
 
     private void DeleteCoins()
@@ -121,5 +148,65 @@ public class SrcGrid : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    private string GridToString()
+    {
+        string gridString = "";
+        for (int row = 0; row < rows; row++)
+        {
+            for (int column = 0; column < columns; column++)
+            {
+                gridString += grid[row, column] + "\t";
+            }
+            gridString += "\n";
+        }
+        return gridString;
+    }
+
+    public bool AreFourConnected(int player)
+    {
+
+        // horizontalCheck 
+        for (int j = 0; j < columns - 3; j++)
+        {
+            for (int i = 0; i <  rows; i++)
+            {
+                if (grid[i,j] == player && grid[i,j + 1] == player && grid[i,j + 2] == player && grid[i,j + 3] == player)
+                {
+                    return true;
+                }
+            }
+        }
+        // verticalCheck
+        for (int i = 0; i <  rows - 3; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (grid[i,j] == player && grid[i + 1,j] == player && grid[i + 2,j] == player && grid[i + 3,j] == player)
+                {
+                    return true;
+                }
+            }
+        }
+        // ascendingDiagonalCheck 
+        for (int i = 3; i <  rows; i++)
+        {
+            for (int j = 0; j < columns - 3; j++)
+            {
+                if (grid[i,j] == player && grid[i - 1,j + 1] == player && grid[i - 2,j + 2] == player && grid[i - 3,j + 3] == player)
+                    return true;
+            }
+        }
+        // descendingDiagonalCheck
+        for (int i = 3; i <  rows; i++)
+        {
+            for (int j = 3; j < columns; j++)
+            {
+                if (grid[i,j] == player && grid[i - 1,j - 1] == player && grid[i - 2,j - 2] == player && grid[i - 3,j - 3] == player)
+                    return true;
+            }
+        }
+        return false;
     }
 }
