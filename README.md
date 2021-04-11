@@ -1,6 +1,6 @@
 # Connect 4
 
-My first game made in Unity.
+My first game made in Unity. The game can be played [here](https://simmer.io/@mdevino/connect-4).
 
 # Todo list
 
