@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class SrcGrid : MonoBehaviour
 {
@@ -9,6 +8,11 @@ public class SrcGrid : MonoBehaviour
     private int[,] grid;
     private DateTime lastPlaced;
     private int delay = 1;
+    
+    public Text text;
+    public Color player1Color;
+    public Color player2Color;
+    public Color neuterColor;
 
     private GameObject[] coins;
     private int coinsAdded;
@@ -60,6 +64,7 @@ public class SrcGrid : MonoBehaviour
                 {
                     placeCoin(mouse);
                     SwitchPlayers();
+                    SetText();
                 }
             }
         }
@@ -101,19 +106,24 @@ public class SrcGrid : MonoBehaviour
             Debug.Log("Player " + winner + " wins");
         }
 
-        lastPlaced = DateTime.Now;
+        if(winner == 0 && coins.Length > columns * rows)
+        {
+            winner = -1;
+        }
 
+        lastPlaced = DateTime.Now;
         // Debug.Log("Player " + playerTurn + " has placed a coin!  Mouse: x=" + mouse.x + ", y=" + mouse.y + "Object: x=" + newCoinPosition.x + ", y=" + newCoinPosition.y);
         Debug.Log(GridToString());
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         DeleteCoins();
         // By default, int array values are set to 0 in C#
         grid = new int[rows, columns];
         playerTurn = 1;
         winner = 0;
+        SetText();
     }
 
     private void DeleteCoins()
@@ -164,7 +174,7 @@ public class SrcGrid : MonoBehaviour
         return gridString;
     }
 
-    public bool AreFourConnected(int player)
+    private bool AreFourConnected(int player)
     {
 
         // horizontalCheck 
@@ -208,5 +218,31 @@ public class SrcGrid : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void SetText()
+    {
+
+        if (text != null)
+        {
+            string message;
+            if (winner < 0)
+            {
+                text.color = neuterColor;
+                message = "Draw";
+            }
+            else if (winner == 0)
+            {
+                text.color = playerTurn == 1 ? player1Color : player2Color;
+                message = "Player " + playerTurn + "'s turn";
+            }
+            else
+            {
+                text.color = playerTurn == 1 ? player2Color : player1Color;
+                message = "Player " + winner + " wins";
+            }
+
+            text.text = message;
+        }
     }
 }
