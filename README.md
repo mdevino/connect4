@@ -8,7 +8,7 @@ My first game made in Unity. The game can be played [here](https://simmer.io/@md
 
 # Acknowlegements
 
-[Win sound](https://freesound.org/people/jobro/sounds/60443/ by [jobro](https://freesound.org/people/jobro/sounds/).
+[Win sound](https://freesound.org/people/jobro/sounds/60443/) by [jobro](https://freesound.org/people/jobro/sounds/).
 
 [Draw sound](https://freesound.org/people/deleted_user_877451/sounds/76376/) by [](https://freesound.org/people/deleted_user_877451/).
 
