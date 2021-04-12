@@ -4,8 +4,13 @@ My first game made in Unity. The game can be played [here](https://simmer.io/@md
 
 # Todo list
 
-* Add Reset button to avoid reloading page for new game
-* Add a few more visual details
+* Improve game graphics
+
+# Acknowlegements
+
+[Win sound](https://freesound.org/people/jobro/sounds/60443/ by [jobro](https://freesound.org/people/jobro/sounds/).
+
+[Draw sound](https://freesound.org/people/deleted_user_877451/sounds/76376/) by [](https://freesound.org/people/deleted_user_877451/).
 
 # Game Design Document
 

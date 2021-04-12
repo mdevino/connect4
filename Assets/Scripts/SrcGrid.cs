@@ -35,12 +35,20 @@ public class SrcGrid : MonoBehaviour
     GameObject coin1;
     [SerializeField]
     GameObject coin2;
+    [SerializeField]
+    AudioClip tada;
+    [SerializeField]
+    AudioClip draw;
+
+    AudioSource source;
 
 
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        source = GetComponent<AudioSource>();
+
         Vector3 size = spriteRenderer.bounds.size;
         Vector3 center = spriteRenderer.bounds.center;
         cellWidth = size.x / columns;
@@ -232,6 +240,7 @@ public class SrcGrid : MonoBehaviour
             {
                 text.color = neuterColor;
                 message = "Draw";
+                source.PlayOneShot(draw);
             }
             else if (winner == 0)
             {
@@ -242,6 +251,7 @@ public class SrcGrid : MonoBehaviour
             {
                 text.color = playerTurn == 1 ? player2Color : player1Color;
                 message = "Player " + winner + " wins";
+                source.PlayOneShot(tada);
             }
 
             text.text = message;
