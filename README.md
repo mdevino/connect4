@@ -9,13 +9,13 @@ My first game made in Unity. The game can be played [here](https://simmer.io/@md
 
 # Game Design Document
 
-*Name:* Connect 4
+**Name:** Connect 4
 
-*Author:* Mateus Devino
+**Author:** Mateus Devino
 
-*Description:* Connect 4 is a two-player game. Each player places coins in a 7x6 board.
+**Description:** Connect 4 is a two-player game. Each player places coins in a 7x6 board.
 
-*Goal:* The player who connects a line of four pieces wins. Lines can be horizontal, vertical or diagonal.
+**Goal:** The player who connects a line of four pieces wins. Lines can be horizontal, vertical or diagonal.
 
 ## State Transition Diagram
 
