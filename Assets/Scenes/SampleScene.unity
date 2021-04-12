@@ -719,6 +719,18 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 939261688}
+    - target: {fileID: 2225665793688574306, guid: d2147ba8eba22174caf4334e1aed7183, type: 3}
+      propertyPath: neuterColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225665793688574306, guid: d2147ba8eba22174caf4334e1aed7183, type: 3}
+      propertyPath: neuterColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225665793688574306, guid: d2147ba8eba22174caf4334e1aed7183, type: 3}
+      propertyPath: neuterColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2225665793688574319, guid: d2147ba8eba22174caf4334e1aed7183, type: 3}
       propertyPath: m_Name
       value: GameGrid

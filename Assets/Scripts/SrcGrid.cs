@@ -1,15 +1,28 @@
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SrcGrid : MonoBehaviour
 {
-    private int playerTurn;
-    private int[,] grid;
-    private DateTime lastPlaced;
-    private int delay = 1;
-    
+    int playerTurn;
+    int[,] grid;
+
+    int coinsAdded;
+    int columns = 7;
+    int rows = 6;
+    int winner;
+
+    float cellWidth;
+    float x0;
+    float y0;
+    float xf;
+    float yf;
+    SpriteRenderer spriteRenderer;
+
+    long delay = 250; // in milliseconds
+    DateTime lastPlaced;
+
     [SerializeField]
     Text text;
     [SerializeField]
@@ -22,24 +35,6 @@ public class SrcGrid : MonoBehaviour
     GameObject coin1;
     [SerializeField]
     GameObject coin2;
-
-    GameObject[] coins;
-    int coinsAdded;
-    int columns = 7;
-    private int rows = 6;
-    private int winner;
-
-    private float cellWidth;
-    private float x0;
-    private float y0;
-    private float xf;
-    private float yf;
-
-    private SpriteRenderer spriteRenderer;
-
-
-
-
 
 
     // Start is called before the first frame update
@@ -67,15 +62,27 @@ public class SrcGrid : MonoBehaviour
             // Translating pixels to game unities
             Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mouse.z = gameObject.transform.position.z;
-            if (spriteRenderer.bounds.Contains(mouse))
+            if (spriteRenderer.bounds.Contains(mouse) && HasDelayElapsed())
             {
-                if (winner == 0 && (long)(DateTime.Now - lastPlaced).TotalSeconds > delay-1)
+                if (winner == 0)
                 {
-                    placeCoin(mouse);
-                    SwitchPlayers();
-                    SetText();
+                    GameTurn(mouse);
                 }
             }
+        }
+    }
+
+    private bool HasDelayElapsed()
+    {
+        return (DateTime.Now - lastPlaced).TotalMilliseconds > delay;
+    }
+
+    private void GameTurn(Vector3 mouse)
+    {
+        if(PlaceCoin(mouse))
+        {
+            SwitchPlayers();
+            SetText();
         }
     }
 
@@ -84,7 +91,7 @@ public class SrcGrid : MonoBehaviour
         playerTurn = playerTurn == 1 ? 2 : 1;
     }
 
-    private void placeCoin(Vector3 mouse)
+    private bool PlaceCoin(Vector3 mouse)
     {
         Vector3 newCoinPosition = new Vector3();
         int column = GetColumn(mouse);
@@ -100,14 +107,15 @@ public class SrcGrid : MonoBehaviour
                 break;
             } else if(row == 0)
             {
-                return;
+                return false;
             }
         }
 
         GameObject coin = playerTurn == 1 ? coin1 : coin2;
         Instantiate(coin, newCoinPosition, Quaternion.identity);
-        coins[coinsAdded] = coin;
         coinsAdded++;
+        lastPlaced = DateTime.Now;
+
 
         if (AreFourConnected(playerTurn))
         {
@@ -115,37 +123,22 @@ public class SrcGrid : MonoBehaviour
             Debug.Log("Player " + winner + " wins");
         }
 
-        if(winner == 0 && coins.Length > columns * rows)
+        if(winner == 0 && coinsAdded == columns * rows)
         {
             winner = -1;
         }
 
-        lastPlaced = DateTime.Now;
-        // Debug.Log("Player " + playerTurn + " has placed a coin!  Mouse: x=" + mouse.x + ", y=" + mouse.y + "Object: x=" + newCoinPosition.x + ", y=" + newCoinPosition.y);
         Debug.Log(GridToString());
+        return true;
     }
 
     private void StartGame()
     {
-        DeleteCoins();
         // By default, int array values are set to 0 in C#
         grid = new int[rows, columns];
         playerTurn = 1;
         winner = 0;
         SetText();
-    }
-
-    private void DeleteCoins()
-    {
-        if (coins != null && coins.Length != 0)
-        {
-            foreach (GameObject coin in coins)
-            {
-                Destroy(coin);
-            }
-        }
-        coins = new GameObject[columns * rows];
-        coinsAdded = 0;
     }
 
     private int GetColumn(Vector3 mouse)
