@@ -10,14 +10,22 @@ public class SrcGrid : MonoBehaviour
     private DateTime lastPlaced;
     private int delay = 1;
     
-    public Text text;
-    public Color player1Color;
-    public Color player2Color;
-    public Color neuterColor;
+    [SerializeField]
+    Text text;
+    [SerializeField]
+    Color player1Color;
+    [SerializeField]
+    Color player2Color;
+    [SerializeField]
+    Color neuterColor;
+    [SerializeField]
+    GameObject coin1;
+    [SerializeField]
+    GameObject coin2;
 
-    private GameObject[] coins;
-    private int coinsAdded;
-    private int columns = 7;
+    GameObject[] coins;
+    int coinsAdded;
+    int columns = 7;
     private int rows = 6;
     private int winner;
 
@@ -29,8 +37,8 @@ public class SrcGrid : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    public GameObject coin1;
-    public GameObject coin2;
+
+
 
 
 
