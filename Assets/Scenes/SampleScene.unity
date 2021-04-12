@@ -224,7 +224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &735045281
 RectTransform:
   m_ObjectHideFlags: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2225665793688574306, guid: d2147ba8eba22174caf4334e1aed7183, type: 3}
         m_TargetAssemblyTypeName: SrcGrid, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

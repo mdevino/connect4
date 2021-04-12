@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SrcGrid : MonoBehaviour
 {
@@ -116,7 +117,7 @@ public class SrcGrid : MonoBehaviour
         Debug.Log(GridToString());
     }
 
-    public void StartGame()
+    private void StartGame()
     {
         DeleteCoins();
         // By default, int array values are set to 0 in C#
@@ -244,5 +245,10 @@ public class SrcGrid : MonoBehaviour
 
             text.text = message;
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
